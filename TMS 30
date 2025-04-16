@@ -1,0 +1,97 @@
+//TASK CLASS
+public class Task {
+    private String id;
+    private String title;
+    private String description;
+    private String dueDate;
+    private String priority;
+    private String status;
+
+    public Task(String id, String title, String description, String dueDate, String priority, String status) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.status = status;
+    }
+
+    public String getId() { return id; }
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public String getDueDate() { return dueDate; }
+    public String getPriority() { return priority; }
+    public String getStatus() { return status; }
+
+    public void setTitle(String title) { this.title = title; }
+    public void setDescription(String description) { this.description = description; }
+    public void setDueDate(String dueDate) { this.dueDate = dueDate; }
+    public void setPriority(String priority) { this.priority = priority; }
+    public void setStatus(String status) { this.status = status; }
+
+    @Override
+    public String toString() {
+        return "Task ID: " + id + "\nTitle: " + title + "\nDescription: " + description +
+               "\nDue Date: " + dueDate + "\nPriority: " + priority + "\nStatus: " + status + "\n";
+    }
+}
+// TASKMANAGER 
+import java.io.*;
+
+public class TaskManager {
+    private Task[] tasks;
+    private int count;
+
+    public TaskManager(int capacity) {
+        tasks = new Task[capacity];
+        count = 0;
+    }
+
+    public void addTask(Task task) {
+        if (count >= tasks.length) {
+            System.out.println("Task limit reached!");
+            return;
+        }
+        tasks[count++] = task;
+        System.out.println("Task added!");
+    }
+
+    public void viewTasks() {
+        if (count == 0) {
+            System.out.println("No tasks available.");
+            return;
+        }
+        for (int i = 0; i < count; i++) {
+            System.out.println(tasks[i]);
+        }
+    }
+
+    public void updateTask(String id, String title, String description, String dueDate, String priority, String status) {
+        for (int i = 0; i < count; i++) {
+            if (tasks[i].getId().equals(id)) {
+                tasks[i].setTitle(title);
+                tasks[i].setDescription(description);
+                tasks[i].setDueDate(dueDate);
+                tasks[i].setPriority(priority);
+                tasks[i].setStatus(status);
+                System.out.println("Task updated!");
+                return;
+            }
+        }
+        System.out.println("Task not found!");
+    }
+
+    public void deleteTask(String id) {
+        for (int i = 0; i < count; i++) {
+            if (tasks[i].getId().equals(id)) {
+                for (int j = i; j < count - 1; j++) {
+                    tasks[j] = tasks[j + 1];
+                }
+                tasks[--count] = null;
+                System.out.println("Task deleted!");
+                return;
+            }
+        }
+        System.out.println("Task not found!");
+    }
+}
